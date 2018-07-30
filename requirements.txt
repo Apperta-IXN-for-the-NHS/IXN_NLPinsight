@@ -1,0 +1,17 @@
+Flask
+Flask-WTF
+matplotlib
+spacy
+nltk
+PyPDF2 
+tqdm
+pandas
+numpy
+gensim
+sklearn
+wordcloud
+pygal
+python-docx
+rarfile
+lda
+bokeh
