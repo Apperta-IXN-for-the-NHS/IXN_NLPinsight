@@ -1,0 +1,87 @@
+{% extends "header.html" %} {% block content %}
+
+
+
+<br>
+<h1>History</h1>
+<br>
+<form action="{{ url_for('delete_all') }}">
+  <button type="submit" name="Submit" class="btn btn-info" style="color:white; background-color:dimgray"> Delete All </button>
+</form>
+
+
+<div class="row">
+  <div class="col-sm">
+
+    <h4> Single files</h4>
+
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">File Name</th>
+          <th scope="col">Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for single_file in single_files %}
+
+        <tr>
+          <td>
+            <a href="{{ url_for('history_single', container_name=single_file.container_name) }}"> {{single_file.file_name_short_with_extension}} </a>
+          </td>
+
+          <td>{{single_file.date_created}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+  </div>
+
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+
+  <div class="col-sm">
+
+    <h4> Multiple files</h4>
+
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">File Name</th>
+          <th scope="col">Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for file in group_files %}
+
+        <tr>
+          <td>
+            <a href="{{ url_for('history_group', container_name=file.container_name) }}"> {{file.compressed_file_name_short_with_extension}} </a>
+          </td>
+
+          <td>{{file.date_created}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+  </div>
+
+
+
+
+
+
+
+  {% with messages = get_flashed_messages() %} {% if messages %}
+  <ul>
+    {% for message in messages %}
+    <div class="alert alert-info alert-dismissible" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      {{ message }}
+    </div>
+    {% endfor %}
+  </ul>
+  {% endif %} {% endwith %} {% endblock %}

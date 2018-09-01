@@ -1,3 +1,8 @@
+#########################################################################
+# This code has been adapted from the following source:
+# Link: https://docs.docker.com/samples/library/python/#create-a-dockerfile-in-your-python-app-project
+#########################################################################
+
 # Use an official Python runtime as a parent image
 FROM python:3.6-stretch
 
@@ -21,4 +26,4 @@ EXPOSE 80
 ENV NAME World
 
 # Run app.py when the container launches
-CMD ["python", "app.py"]
+CMD ["python","-u","main.py"]

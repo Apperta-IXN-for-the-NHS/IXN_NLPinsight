@@ -1,0 +1,128 @@
+{% extends "header.html" %} {% block content %}
+
+<br>
+
+
+<h1>About</h1>
+<br>
+<br>
+
+<div style="display: inline-block; text-align: left;">
+    <p>
+
+        <b>
+                <font size="5">
+            This web application allows for the analysis of documents containing text. It can be used as a pre-processing tool in an
+            NLP pipeline by allowing the user to gain insight into what is contained within a document or a batch of documents.
+                </font>
+
+            
+        </b>
+
+    </p>
+</div>
+<br>
+<br>
+
+<div style="text-align: left;">
+<h3> Processing a single document </h3>
+
+    <b> Supported data format: &emsp;&emsp; .pdf, .txt, .docx </b> 
+
+    <p>
+            <font color="#585b60">
+
+            For single documents, the wep app produces a word cloud and an interactive word-frequency distribution graph that gives the user information on the most prevalant words in the document.<br />
+            <br />
+            To use this feature simply input text into the text box and click 'submit' or upload a pdf/word/text document. 
+            
+        </font>
+    </p>
+</div>
+<br>
+<hr>
+<br>
+<div style=" text-align: left;">
+<h3> Processing a group of multiple documents </h3>
+
+    <b>Supported data format:  &emsp;&emsp;  .zip, .tar for the parent file  &emsp;   .pdf, .txt, .docx for the child files </b>
+
+
+    <p>
+            <font color="#585b60">
+            For multiple documents, the wep app produces an interactive scatter graph representation of the documents. The distincly coloured clusters within the scatter graph represent the 
+            different detected topics. 
+            The documents are classified into topics using Latent Dirichlet Allocation (LDA) - a statistical model that views each document as a mixture of various topics
+            and each topic has a certain vocabulary (a set of words belonging to that topic ). 
+            Given an input of the number of topics, the model will predict what documents each topic is comprised of and the set of words that best describe a topic.
+            <br />
+            In addition to the scatter graph, the web app produces an interactive visualisation of topics that allows the user to better interpret the meaning and consistency of each topic. This is described below. </br>
+            <br />
+            To use this feature simply upload a zip or rar folder that contains pdf/text/word files (at minimum 4 such files).
+            <br/> Please note, depending on the number of files in the compressed folder, the visualisations may take several minutes to appear (it takes roughly 7 minutes to process 750 files).
+            </font>
+
+    </p>
+</div>
+
+
+<br>
+<hr>
+<br>
+<br>
+
+<div style=" text-align: left;">
+    <h3> pyLDAvis visualisation explanation</h3>
+    <br>
+    
+    <h5>Example visualisation:</h5>
+
+    <img src="/static/pyldavis.jpg"  style="width:70%;height:70%;border:1px solid #021a40;">
+    
+    <br>
+    <br>
+        <p>
+                <font color="#585b60">
+                    The visualisation is divided into two distinct parts. The left panel represents a general view of the topics with each circle representing a single topic. 
+                    The relative size of each circle correlates to the prevalence of the topic within the document. When circles overlap it indicates that the attributed topics have shared topic words. 
+                    The distance between the circles represent how far apart the topics are in parameter space - i.e how 'different' topics are. The right panel shows a list of words next to a bar chart. 
+                    The overlaid red and blue bars represent the word frequency within the selected topic (topic 1 in this example) and the overall frequency of the word respectively.
+                   
+                    <br>
+                    <br>
+                    A word's ability to represent a topic is usually measured using the word's inter-topic probability (taken from the result of LDA). Recent research has however shown that
+                    this often to leads to multiple topics sharing the same top words. 
+                    The authors of this visualisation have proposed a new metric to measure a word's ability to represent a topic called 'relevance'. This is described in the 
+                    following equation: 
+
+                    <img src="/static/equation.jpg"  style="width:30%;height:30%;">.
+                    
+                    <br>
+
+                    <img src="/static/phi.jpg"  style="width:2.5%;height:2.5%;">
+                    is the probability of word w in topic k. 
+                    <img src="/static/prob.jpg"  style="width:2%;height:2%;">
+                    is the marginal probability of the word in the whole corpus (collection of texts).
+                    <img src="/static/ratio.jpg"  style="width:2.5%;height:2.5%;"> is a quantity called 'lift' and is defined as "the ratio of a word's probability
+                    within a topic to its marginal probability across the corpus" <cite>C. Sievert, K. Shirley</cite>. 
+                    <img src="/static/lambda.jpg"  style="width:1.2%;height:1.2%;">
+                    "determines the weight given to the probability
+                    of term w under topic k relative to its lift
+                    (measuring both on the log scale). Setting it to 1
+                    results in the familiar ranking of terms in decreasing
+                    order of their topic-specific probability, and
+                    setting it to 0 ranks terms solely by their lift." <cite>C. Sievert, K. Shirley</cite>. 
+                    The user can adjust <img src="/static/lambda.jpg"  style="width:1.2%;height:1.2%;"> using the scroll bar.
+
+
+                  
+                    
+                </font>
+    
+        </p>
+    </div>
+
+
+
+
+{% endblock %} 

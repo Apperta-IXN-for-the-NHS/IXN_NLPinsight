@@ -1,52 +1,43 @@
-import pandas as pd
-pd.options.mode.chained_assignment = None 
-import numpy as np
-import re
-import nltk
-import io
-import base64
-from gensim.models import word2vec
-
-from sklearn.manifold import TSNE
 import matplotlib
-
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
+import mpld3
 from stopwords import stop_word_list
-
-import time
-
-from wordcloud import WordCloud, STOPWORDS
+from wordcloud import WordCloud
 
 
+def build_word_cloud(text, n):
+    '''
+    Plots the wordcloud from a given token list and returns the plot in html format to be embedded in a html file.
 
+    Parameters
+    ----------
+    text : str
+        The text in form of a string to generate the word cloud.
+    n : int:
+        maximum number of tokens to display in the wordcloud.
 
-def build_word_cloud(token_list, n, myextension):
-    words  = token_list
-    stop_words = stop_word_list()
+    Returns
+    ----------
+    Embedded html of the wordcloud visulisation. This can be simply added to a html template.
 
+    '''
    
-
-    
+    stop_words = stop_word_list()
 
     wordcloud = WordCloud(width=1440, height=1080,
                           background_color='white',
-                         #colormap="Blues",
-                         #margin=10,
+                          #colormap="Blues",
+                          #margin=10,
                           stopwords=stop_words,
                           max_words=n,
-                         ).generate(str(words))
+                          ).generate(str(text))
 
-
-
-    fig = plt.figure(figsize=(20, 15))
+    fig = plt.figure(figsize=(13, 9))
     plt.imshow(wordcloud)
     plt.axis('off')
     plt.margins(x=0, y=0)
-    
-    fig_name='static/mycloud' + str(myextension)
 
-    plt.savefig(fig_name, bbox_inches='tight')
-  
+    html = mpld3.fig_to_html(fig, no_extras=True, template_type='general')
 
-
+    return html

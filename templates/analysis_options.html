@@ -2,32 +2,86 @@
 
 {% block content %}  
 <body>
+
+  
+
 <nav>
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
           <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Word Cloud</a>
           <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Word Frequency</a>
+          &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+          &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+          &nbsp;
+          {% if not current_user.is_anonymous %}
+          {% if session['save'] %}
+
+          <form action="{{ url_for('save_single') }}">
+                 <button type="submit"  name = "Submit" class="btn btn-info" style="color:white; background-color:rgb(19, 19, 206)"> Save </button>
+     </form>  
+     
+     {% endif %}
+     {% endif %}
           
         </div>
       </nav>
 
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-info alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="close"> <span aria-hidden = "true">&times;</span> </button>
+               {{ message }}  <style type="text/css">
+                .alert {
+                  width:100%;
+                  height:5%;    
+               }
+            </style>
+            </div>
+            {% endfor %}
+        {% endif %}
+        {% endwith %} 
+
+
       <div class="tab-content" id="nav-tabContent">
         <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+
+                <div  style="position: absolute; clip: rect(75px,1200px,805px,200px); top: -30px; left: -180px; ">
+
+             {{wordcloud_html|safe}}
             
-                
-        
+            
+            </div>
+            
+     
 
-                        
-                        
-
-                          <img src="{{myfilename}}" class="img-fluid" alt="Responsive image" width="100%" height="100%"  />
-
+            
+       
                 
                 
         
         </div>
         <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
             
-          
+
+            <form action="{{ url_for('submit_stop_words') }}" method="post">
+                <br>
+                
+               
+
+                <div>
+              <b> Add stopwords (comma delimited): </b> &nbsp;  &nbsp; &nbsp; &nbsp;  &nbsp; 
+              {{stop_words_form.stopwords()}} &nbsp; &nbsp;
+              {{stop_words_form.submit()}}
+         </div>
+
+                  
+
+
+
+        
+
+            <br>
+          <br>
                 <div class="container" align="left">
                         <embed type="image/svg+xml" src={{graph_data|safe}} style = 'max-width:1000px' />
                     </div>

@@ -1,68 +1,170 @@
-{% extends "header.html" %} <!-- define what is being extended, starting from the templates directoory -->
+{% extends "header.html" %}
+<!-- define what is being extended, starting from the templates directoory -->
 
-{% block content %}  
+{% block content %}
 
-  
+
 <head>
-    
-  <meta charset="utf-8">
-  <title>TTSNE OUTPUT</title>
-  
-  
-    
-      
+
+    <meta charset="utf-8">
+    <title>TSNE OUTPUT</title>
+
+
+
+
     <link rel="stylesheet" href="https://cdn.pydata.org/bokeh/release/bokeh-0.13.0.min.css" type="text/css" />
-    
-    
-      
+
+
+
     <script type="text/javascript" src="https://cdn.pydata.org/bokeh/release/bokeh-0.13.0.min.js"></script>
     <script type="text/javascript">
         Bokeh.set_log_level("info");
     </script>
-    
-  
-  
+
+
+
+
 
 </head>
 
 <body>
-<nav>
+
+    <nav>
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
-          <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">PCA and t-SNE</a>
-          <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">k-means and t-SNE</a>
-          <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">pyLDAvis </a>
-        </div>
-      </nav>
+            <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home"
+                aria-selected="true">LDA and t-SNE</a>
+            <a  class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact"
+                aria-selected="false">pyLDAvis </a>
+                &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+                &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
 
-      <div class="tab-content" id="nav-tabContent">
+
+                {% if not session['download'] %}
+
+                &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+                &nbsp;&emsp;&emsp;&emsp;
+
+
+                {% endif %}
+
+                {% if not session['save'] %}
+
+                &emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                {% endif %}
+
+
+                
+                {% if session['download'] %}
+              
+
+         
+                    
+                    <form action="{{ url_for('download_docs') }}">
+                        <button type="submit" name="Submit" class="btn btn-info" style="color:white; background-color:rgb(19, 19, 206)"> Download clustered documents </button>
+                    </form>
+
+
+
+
+
+           
+                {% endif %}
+                
+                
+
+                
+                &emsp;&emsp;
+                {% if not current_user.is_anonymous %}
+                {% if session['save'] %}
+              
+
+         
+                    
+                    <form action="{{ url_for('save_group') }}">
+                        <button type="submit" name="Submit" class="btn btn-info" style="color:white; background-color:rgb(19, 19, 206)"> Save </button>
+                    </form>
+
+
+
+
+
+           
+                {% endif %}
+                {% endif %}
+
+
+
+        </div>
+    </nav>
+
+    
+    {% with messages = get_flashed_messages() %} {% if messages %} {% for message in messages %}
+    <div class="alert alert-info alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        {{ message }}
+        <style type="text/css">
+            .alert {
+                width: 100%;
+                height: 5%;
+            }
+        </style>
+    </div>
+    {% endfor %} {% endif %} {% endwith %}
+
+
+    <div class="tab-content" id="nav-tabContent">
         <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+
+
+
+            <div class="row">
+                <div class="col-sm-6">
+
+                    <form action="{{ url_for('submit_number_topics') }}" method="post">
+                        <br>
+
+                        <div>
+                            {{number_form.number_topics()}} {{number_form.number_topwords()}} {{number_form.submit()}}
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+            <br>
+
             
-                
-      
 
-         <div class="embed-wrapper">
-             
-          {{div|safe}}
-          {{script|safe}}
 
-          </div>
-                
-        
-        </div>
-        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-            
-          
-             ...
+         
+
+
+            <div class="embed-wrapper">
+
+                {{lda_html|safe}}
+
+
+            </div>
+
 
         </div>
-        
+
+
         <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
-
-              ...
+            <br>
+            <div class="embed-wrapper">
+                {{pyldavis_html|safe}}
+            </div>
 
         </div>
 
-    </body>
+    </div>
 
-    {% endblock %}	
 
+</body>
+
+{% endblock %}

@@ -1,63 +1,71 @@
-{% extends "header.html" %} <!-- define what is being extended, starting from the templates directoory -->
+{% extends "header.html" %}
+<!-- define what is being extended, starting from the templates directoory -->
 
-{% block content %}  
+{% block content %}
+
+
 
 <form action="{{ url_for('submit') }}" method="post">
     <div class="form-group">
-            <h1 class="mt-5">Input text</h1>
+        <h1 class="mt-5">Input text</h1>
+        <br>
+        <textarea class="form-control" name="text" rows="12" required></textarea>
+        <p>
             <br>
-            <textarea class="form-control" name="text" rows="12" required></textarea>
-            <p>
-            <br>
-            <button type="submit"  name = "Submit" class="btn btn-secondary btn-lg btn-block">Submit</button>
-          
+            <button type="submit" name="Submit" class="btn btn-secondary btn-lg btn-block">Submit</button>
+
         </p>
     </div>
-</form>    
+</form>
 
 <br>
+
+{% with messages = get_flashed_messages() %} {% if messages %} {% for message in messages %}
+<div class="alert alert-info alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    {{ message }}
+    <style type="text/css">
+        .alert {
+            width: 100%;
+            height: 5%;
+        }
+    </style>
+</div>
+{% endfor %} {% endif %} {% endwith %}
+
+
+
+
 <h2 class="mt-5">Or upload file/files</h2>
 <br>
 
-<form enctype = "multipart/form-data" action="" method="post" >
+<form enctype="multipart/form-data" action="" method="post">
     {{ form.hidden_tag() }}
-        <div class="form-group"></div>
+    <div class="form-group"></div>
 
-        <div class="row justify-content-around">
-            
-                <div class="col-8">
-                        {{ form.document() }}
+ 
 
-                        {{ form.submit() }}  
+   
 
-                </div>
-                <div class="col-4">
+            {{ form.document() }} {{ form.submit() }}
 
-                   {% with messages = get_flashed_messages() %}
-                    {% if messages %}
-                        {% for message in messages %}
-                        <div class="alert alert-info alert-dismissible" role="alert">
-                            <button type="button" class="close" data-dismiss="alert" aria-label="close"> <span aria-hidden = "true">&times;</span> </button>
-                           {{ message }} 
-                        </div>
-                        {% endfor %}
-                    {% endif %}
-                    {% endwith %} 
-                </div>
-              </div>
-                    
-               
-                           
+       
         
 
 
-            </div>
-
-
-            
-      </form>
 
 
 
-{% endblock %}	
+    </div>
 
+
+
+</form>
+
+<br>
+<br>
+<br>
+<br>
+<br> {% endblock %}

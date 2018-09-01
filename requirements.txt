@@ -7,7 +7,6 @@ PyPDF2
 tqdm
 pandas
 numpy
-gensim
 sklearn
 wordcloud
 pygal
@@ -15,3 +14,10 @@ python-docx
 rarfile
 lda
 bokeh
+Flask-login
+Flask-SQLAlchemy
+Flask-Session
+pyLDAvis
+Azure.storage.blob
+mpld3
+crython
